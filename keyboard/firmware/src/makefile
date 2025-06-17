@@ -2,17 +2,17 @@
 CFLAGS = -mmcu=atmega32u4 -Wall -Os   # Compiler flags
 CFLAGS_USB = -Os -DF_CPU=16000000UL -mmcu=atmega32u4 -Ilib 
 
-M_TARGET 			 = main_master           		 # Base name of the output executable
-M_ELF           = main_master.elf       		 # ELF file
-M_HEX           = main_master.hex       		 # HEX file
-M_SRC           = main_master.c         		 # Source file
-M_SRC           += helper.c i2c.c usb.c mapping.c macros.c     # Source file
+M_TARGET 			 = main_master           		 									# Base name of the output executable
+M_ELF           = main_master.elf       		 								# ELF file
+M_HEX           = main_master.hex       		 								# HEX file
+M_SRC           = main_master.c         		 								# Source file
+M_SRC           += helper.c i2c.c usb.c mapping.c macros.c  # Source file
 
-S_TARGET 			 = main_slave           		 # Base name of the output executable
-S_ELF           = main_slave.elf       		 		# ELF file
-S_HEX           = main_slave.hex       		 		# HEX file
-S_SRC           = main_slave.c         		 		# Source file
-S_SRC           += helper.c i2c.c usb.c mapping.c	# Source file
+S_TARGET 			 = main_slave           		 									# Base name of the output executable
+S_ELF           = main_slave.elf       		 									# ELF file
+S_HEX           = main_slave.hex       		 									# HEX file
+S_SRC           = main_slave.c         		 									# Source file
+S_SRC           += helper.c i2c.c usb.c mapping.c	macros.c  # Source file
 
 # Default target
 all: master mclean

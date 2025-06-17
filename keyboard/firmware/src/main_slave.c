@@ -85,7 +85,7 @@ int main(void) {
   }
 
   matrixIndex = 0;
-  setOutPin(0, HIGH);
+  // setOutPin(0, HIGH);
 
   while (1) {
     matrixScan(keyMatrixSlave);
@@ -109,7 +109,7 @@ ISR(TWI_VECT) {
 
   case TWI_ST_SLA_ACK:          // SLA+R received, ACK sent
   case TWI_ST_ARB_LOST_SLA_ACK: // Arbitration lost, SLA+R received
-    setOutPin(1, LOW);
+    // setOutPin(1, LOW);
     *TWDR = keyMatrixSlave[matrixIndex]; // Load data to send
     *TWCR = TWINT | TWEN | TWEA;         // Transmit first byte
     matrixIndex++;
@@ -137,7 +137,7 @@ ISR(TWI_VECT) {
     *TWCR = 0;
     delay(4000);
     *TWCR = TWINT | TWEN | TWEA;
-    setOutPin(1, HIGH);
+    // setOutPin(1, HIGH);
     break;
   }
   *TWCR |= TWIE | TWINT | TWEA | TWEN;
