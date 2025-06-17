@@ -1,0 +1,6 @@
+Escape:Tab:Caps Lock:LShift:1:Q:A:Z:2:W:S:X:3:E:D:C:Home:ShiftTst:ERT:HomeTest:DblsTest:End:5:T:G:B:LWin:LCtrl:Spacebar:LAlt:=:[:]:':0:P:;:/:9:O:L:.:8:I:K:,:Enter:7:U:J:M:Delete:dblLine:Y:H:N:Backspace:RCtrl:Spacebar:RShift
+aAa<LShift>bBb</LShift>cCc
+ert!
+abc<Home>123
+aA<LShift><LShift>bB<Home>X</LShift>cC<junk></junk>
+<LShift><Home></LShift><LCtrl>C</LCtrl><LCtrl>v</LCtrl><LCtrl>v</LCtrl>
