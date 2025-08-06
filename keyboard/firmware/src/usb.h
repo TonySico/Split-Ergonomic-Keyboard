@@ -171,14 +171,14 @@ void configureEndpointZero();
 void usb_send_descriptor(uint8_t descriptor[] ,uint8_t desc_bytes);
 
 /**
- *  @usb_ep0_setup@
+ *  @usb_ep0_setup
  *  Respond appropriately to SETUP packets received by endpoint 0
  * 
  */
 void usb_ep0_setup();
 
 /**
- *  @encode@
+ *  @encode
  *  Encodes message of given length to USB-encoded sequence of bytes.
  *  Supports special tags in message (<LShift> ... </LShift> or <Home>).
  *  Used for debugging and sending macros.
@@ -191,7 +191,7 @@ void usb_ep0_setup();
 void encode(char message[], uint8_t chars[], uint8_t modifiers[], int* length);
 
 /**
- *  @send_message@
+ *  @send_message
  *  Sends a "!"-terminated string (ex: "abc123!") over USB.
  *  Used for debugging.
  *  @input: Message to send, MUST BE TERMINATED IN "!", valid chars [A-Za-z0-9] and "-" for backspace.
@@ -200,7 +200,7 @@ void encode(char message[], uint8_t chars[], uint8_t modifiers[], int* length);
 void send_message(char* input);
 
 /**
- *  @send_int@
+ *  @send_int
  *  Sends an integer over USB.
  *  Used for debugging.
  *  @num: Number to send/type out.
@@ -209,7 +209,7 @@ void send_message(char* input);
 void send_int(uint8_t num);
     
 /**
- *  @usb_send_keypress@
+ *  @usb_send_keypress
  *  Sends current contents of keyboard_pressed_keys array and keyboard_modifier.
  *  @num: Number to send/type out.
  *
@@ -217,7 +217,7 @@ void send_int(uint8_t num);
 void usb_send_keypress();
 
 /**
- *  @encode_keypresses@
+ *  @encode_keypresses
  *  Converts the combined keyboard matrix into a USB-ready modifier byte and 6x keypress bytes using the mapping array.
  *  Note that this function's results should be compared against the current modifier and keypress array to determine if the keyboard state has changed.
  *  NOTA BENE!!!: be sure to reset pressed_keys and modifier between encodings! 
@@ -238,6 +238,18 @@ void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* 
  *
  */
 void send_macros(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifier);
+
+
+/**
+ *  @usb_send_matrix
+ *  Sends all the required keys via usb_send_keypress()
+ *  @zero_status
+ *  @current_status
+ *  @zero_status
+ *  @zero_status
+ *
+ */
+void usb_send_matrix(uint8_t *zero_status, uint8_t *current_status, uint8_t new_keyboard_modifier, uint8_t *new_keyboard_pressed_keys );
 
 // Device Descriptor
 static const uint8_t dev_des[] PROGMEM = {

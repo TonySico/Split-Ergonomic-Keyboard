@@ -28,14 +28,16 @@
 
 #define TWI_TWSR_MASK 0xF8
 
-#define TW_START 0x08
-#define TW_REP_START 0x10
-
+// Bad TWSR codes
 #define TWI_MR_ARB_LOST 0x38
-#define TWI_MR_SLA_ACK 0x40
 #define TWI_MR_SLA_NACK 0x48
+
+// Good TWSR codes
+#define TWI_MR_SLA_ACK 0x40
 #define TWI_MR_DATA_ACK 0x50
 #define TWI_MR_DATA_NACK 0x58
+#define TW_START 0x08
+#define TW_REP_START 0x10
 
 #define TWI_ST_SLA_ACK 0xA8
 #define TWI_ST_ARB_LOST_SLA_ACK 0xB0
@@ -126,5 +128,12 @@ uint8_t i2cReadAck();
  *  @Return: returns the recieved byte
  */
 uint8_t i2cReadNack();
+
+/**
+ *  @i2cCheckAndRecover
+ *  Check the status of i2c, and reset it if it isn't responsive
+ *
+ */
+void i2cCheckAndRecover();
 
 #endif // I2C_H

@@ -62,30 +62,22 @@ void initInputPins() {
 
 int main(void) {
 
+  i2cInitSlave();
+
   initOutputPins();
   initInputPins();
 
   // configureUSBInterface();
   // configureEndpointZero();
 
-  i2cInitSlave();
-
   __no_op();
 
-  // outputRegister(TWAR, 9);
-
-  // for (uint8_t i = 0; i < NUM_IN_PIN; i++) {
-  //   // Fills matrix with values 0x01 -> 0x05
-  //   keyMatrixSlave[i] = 0x00;
-  // }
-
   for (uint8_t i = 0; i < NUM_IN_PIN; i++) {
-    // Fills matrix with values 0x01 -> 0x05
+    // Fills matrix with values 0x00
     keyMatrixSlave[i] = 0;
   }
 
   matrixIndex = 0;
-  // setOutPin(0, HIGH);
 
   while (1) {
     matrixScan(keyMatrixSlave);
@@ -136,9 +128,9 @@ ISR(TWI_VECT) {
     matrixIndex = 0;
     *TWCR = 0;
     delay(4000);
-    *TWCR = TWINT | TWEN | TWEA;
+    *TWCR = TWIE | TWINT | TWEA | TWEN;
     // setOutPin(1, HIGH);
     break;
   }
-  *TWCR |= TWIE | TWINT | TWEA | TWEN;
+  *TWCR = TWIE | TWINT | TWEA | TWEN;
 }

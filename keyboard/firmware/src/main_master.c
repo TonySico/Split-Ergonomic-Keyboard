@@ -58,12 +58,12 @@ void initInputPins() {
  */
 void combine(uint8_t *keyMatrixMaster, uint8_t *keyMatrixSlave,
              uint8_t *keyMatrix) {
-    for (uint8_t i = 0; i < (NUM_IN_PIN); i++) {
-        keyMatrix[i] = keyMatrixMaster[i];
-        }
-    for (uint8_t i = 0; i < (NUM_IN_PIN); i++) {
-            keyMatrix[i+5] = keyMatrixSlave[i];
-          }
+  for (uint8_t i = 0; i < (NUM_IN_PIN); i++) {
+    keyMatrix[i] = keyMatrixMaster[i];
+  }
+  for (uint8_t i = 0; i < (NUM_IN_PIN); i++) {
+    keyMatrix[i + 5] = keyMatrixSlave[i];
+  }
 }
 
 int main(void) {
@@ -107,6 +107,7 @@ int main(void) {
   }
 
   while (1) {
+    i2cCheckAndRecover();
 
     // Scan master's matrix then receive slave's matrix
     matrixScan(keyMatrixMaster);
@@ -116,61 +117,16 @@ int main(void) {
     combine(keyMatrixMaster, keyMatrixSlave, keyMatrix);
 
     // Deal with sending any macros first, then move onto regular keypresses
-    send_macros(keyMatrix, new_keyboard_pressed_keys,
-        &new_keyboard_modifier);
+    send_macros(keyMatrix, new_keyboard_pressed_keys, &new_keyboard_modifier);
 
     // Encode contents of combined matrix into USB-formmated modifier and
     // keypresses
     encode_keypresses(keyMatrix, new_keyboard_pressed_keys,
                       &new_keyboard_modifier);
 
-    // Check if new report is empty
-    zero_status = new_keyboard_modifier;
-    for (int i = 0; i < 6; i++) {
-      zero_status += new_keyboard_pressed_keys[i];
-    }
-
-    if (!zero_status && !current_status) { // Both empty, do nothing
-      continue;
-
-    } else if (zero_status && !current_status) { // New keypresses (must send)
-      for (int i = 0; i < 6; i++) {
-        keyboard_pressed_keys[i] = new_keyboard_pressed_keys[i];
-      }
-      keyboard_modifier = new_keyboard_modifier;
-      usb_send_keypress();
-      current_status = 1;
-      continue;
-
-    } else if (!zero_status &&
-               current_status) { // No longer any keypresses (must send blank)
-      for (int i = 0; i < 6; i++) {
-        keyboard_pressed_keys[i] = 0x00;
-      }
-      keyboard_modifier = 0x00;
-      usb_send_keypress();
-      current_status = 0;
-      continue;
-
-    } else if (zero_status &&
-               current_status) { // Replace keypresses (and check if held down)
-      int identical = 1;
-      for (int i = 0; i < 6; i++) {
-        if (keyboard_pressed_keys[i] != new_keyboard_pressed_keys[i]) {
-          identical = 0;
-        }
-      }
-      if (identical) {
-        continue;
-      } else {
-        for (int i = 0; i < 6; i++) {
-          keyboard_pressed_keys[i] = new_keyboard_pressed_keys[i];
-        }
-        keyboard_modifier = new_keyboard_modifier;
-        usb_send_keypress();
-        current_status = 1;
-        continue;
-      }
-    }
+    // now that all the contents is encoded, we actually send the packets via
+    // usb
+    usb_send_matrix(&zero_status, &current_status, new_keyboard_modifier,
+                    new_keyboard_pressed_keys);
   }
 }

@@ -15,11 +15,79 @@
  *
  */
 void i2cInitSlave() {
+  cli();
+  *TWCR = 0;
   // Set the address of the slave
   *TWAR = (0x45 << 1);
   // expect 1000 1010
   *TWCR = TWEN | TWEA | TWIE | TWINT;
   sei();
+}
+
+/**
+ *  @i2cReset
+ *  Configure SCL and SDA as output pins
+ *  Toggle them both, then restart normal config
+ *
+ */
+void i2cReset() {
+  // set SCL and SDA pins as outputs
+  configureOut(3); // SCL
+  configureOut(2); // SDA
+  // Sets both SCL and SDA high
+  setOutPin(3, 1);
+  setOutPin(2, 1);
+
+  for (int i = 0; i < 9; i++) {
+    togglePin(3); // SCL low
+    delay(10);
+    togglePin(3); // SCL high
+    delay(10);
+  }
+
+  // Simulate a fake stop signal
+  setOutPin(2, 0); // SDA low
+  delay(10);
+  setOutPin(3, 1); // SCL high
+  delay(10);
+  setOutPin(2, 1); // SDA low
+
+  *TWCR = TWEN;
+}
+
+/**
+ *  @i2cCheckAndRecover
+ *  Check the status of i2c, and reset it if it isn't responsive
+ *
+ */
+void i2cCheckAndRecover() {
+  uint8_t status = *TWSR & TWI_TWSR_MASK;
+  // shift back the twen bit to have a single 0 or 1
+  uint8_t i2cOn = (*TWCR & (TWEN)) >> 2;
+  uint8_t fix;
+
+  switch (status) {
+  case TW_START:
+  case TW_REP_START:
+  case TWI_MR_SLA_ACK:
+  case TWI_MR_DATA_ACK:
+  case TWI_MR_DATA_NACK:
+    fix = 0;
+  default:
+    fix = 1;
+  }
+
+  // Fix is not working forsome reason, I believe this is what is causing issues
+  // with respetct to the master not starting properly once the slave is reset,
+  // until the master itsle fis reset
+  if (fix || !i2cOn) {
+    i2cReset();
+
+    togglePin(0);
+    delay(10000);
+
+    i2cInitMaster();
+  }
 }
 
 /**
@@ -30,6 +98,9 @@ void i2cInitSlave() {
  *
  */
 void i2cInitMaster() {
+
+  *TWCR = 0;
+
   *TWSR = ~(TWPS0 | TWPS1);
 
   *TWBR = (((F_CPU / SCL_CLOCK) - 16) / 2);

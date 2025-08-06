@@ -67,8 +67,8 @@ extern volatile uint8_t *PIND;
 extern volatile uint8_t *DDRD;
 extern volatile uint8_t *PORTD;
 
-extern uint8_t pinD0;
-extern uint8_t pinD1;
+extern uint8_t pinD0; // SCL
+extern uint8_t pinD1; // SDA
 extern uint8_t pinD4;
 extern uint8_t onBoardLEDLeft; // usbc at bottom of board
 extern uint8_t pinD7;

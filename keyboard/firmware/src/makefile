@@ -21,7 +21,6 @@ all: master mclean
 master: $(M_SRC)
 	avr-gcc $(CFLAGS) -o $(M_ELF) $(M_SRC)
 	avr-objcopy -j .text -j .data -O ihex $(M_ELF) $(M_HEX)
-	sudo avrdude -c avr109 -p ATMEGA32U4 -P /dev/ttyACM0 -U flash:w:main_master.hex;
 
 slave: $(S_SRC)
 	avr-gcc $(CFLAGS) -o $(S_ELF) $(S_SRC)
