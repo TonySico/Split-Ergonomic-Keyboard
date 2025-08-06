@@ -756,103 +756,135 @@ class MainWindow(Frame):
         if self.editing != -1: #what else are we editing
             self.on_background_click()
 
+        file_path = "./defaults.map"
+        if not file_path:
+            tkinter.messagebox.showerror(title="Error", message="No location specified, no mapping loaded!")
+            return
+
+        f = open(file_path, "r")
+        buffer = f.readline().split(":")
+        buffer[-1] = buffer[-1].strip()
+        macro_contents = [x.strip() for x in f.readlines()]
+        f.close()
+
+        if len(buffer) != 60:
+            tkinter.messagebox.showerror(title="Error", message="Invalid mapping read, operation aborted!")
+            return
+
+        for i in range(0, 60):
+            self.canvas.itemconfig(self.buttonLabelList[i], fill=self.KeycapColor)
+
+            if buffer[i] in self.specials: # Special
+                self.canvas.itemconfig(self.buttonLabelList[i], text="\n"+buffer[i], font=(self.KeycapFont, 9, "bold"))
+            elif buffer[i] not in m and buffer[i] != "???": # Macro
+                self.canvas.itemconfig(self.buttonLabelList[i], text="\n"+buffer[i], font=(self.KeycapFont, 9, "bold"), fill="#e6e300")
+                self.macros[buffer[i]] = macro_contents.pop(0)
+            else: # Not macro, not special (regular key)
+                self.canvas.itemconfig(self.buttonLabelList[i], text=buffer[i].upper(), font=(self.KeycapFont, 13, "bold"))
+                if buffer[i] in special_doubles: # Deal with special doubles
+                    self.canvas.itemconfig(self.buttonLabelList[i], text=special_doubles[buffer[i]]+"\n"+buffer[i])                      
+                elif buffer[i] in special_doubles.values():
+                    self.canvas.itemconfig(self.buttonLabelList[i], text=buffer[i]+"\n"+str(next((k for k, v in special_doubles.items() if v == buffer[i]), None)))
+                else:
+                    self.canvas.itemconfig(self.buttonLabelList[i], text="\n"+buffer[i])
+
         # Set default values
 
         # region
 
-        self.canvas.itemconfig(self.buttonLabelList[0], text="Escape")
-        self.canvas.itemconfig(self.buttonLabelList[1], text="Tab")
-        self.canvas.itemconfig(self.buttonLabelList[2], text="Caps Lock")
-        self.canvas.itemconfig(self.buttonLabelList[3], text="LShift")
-
-        self.canvas.itemconfig(self.buttonLabelList[4], text="1")
-        self.canvas.itemconfig(self.buttonLabelList[5], text="Q")
-        self.canvas.itemconfig(self.buttonLabelList[6], text="A")
-        self.canvas.itemconfig(self.buttonLabelList[7], text="Z")
-
-        self.canvas.itemconfig(self.buttonLabelList[8], text="2")
-        self.canvas.itemconfig(self.buttonLabelList[9], text="W")
-        self.canvas.itemconfig(self.buttonLabelList[10], text="S")
-        self.canvas.itemconfig(self.buttonLabelList[11], text="X")
-
-        self.canvas.itemconfig(self.buttonLabelList[12], text="3")
-        self.canvas.itemconfig(self.buttonLabelList[13], text="E")
-        self.canvas.itemconfig(self.buttonLabelList[14], text="D")
-        self.canvas.itemconfig(self.buttonLabelList[15], text="C")
-        self.canvas.itemconfig(self.buttonLabelList[16], text="Home")
-
-        self.canvas.itemconfig(self.buttonLabelList[17], text="4")
-        self.canvas.itemconfig(self.buttonLabelList[18], text="R")
-        self.canvas.itemconfig(self.buttonLabelList[19], text="F")
-        self.canvas.itemconfig(self.buttonLabelList[20], text="V")
-        self.canvas.itemconfig(self.buttonLabelList[21], text="End")
-
-        self.canvas.itemconfig(self.buttonLabelList[22], text="5")
-        self.canvas.itemconfig(self.buttonLabelList[23], text="T")
-        self.canvas.itemconfig(self.buttonLabelList[24], text="G")
-        self.canvas.itemconfig(self.buttonLabelList[25], text="B")
-        self.canvas.itemconfig(self.buttonLabelList[26], text="LWin")
-
-        self.canvas.itemconfig(self.buttonLabelList[27], text="LCtrl")
-        self.canvas.itemconfig(self.buttonLabelList[28], text="Spacebar")
-
-        self.canvas.itemconfig(self.buttonLabelList[29], text="LAlt")
-
-
-        self.canvas.itemconfig(self.buttonLabelList[30], text="=")
-        self.canvas.itemconfig(self.buttonLabelList[31], text="[")
-        self.canvas.itemconfig(self.buttonLabelList[32], text="]")
-        self.canvas.itemconfig(self.buttonLabelList[33], text="'")
-
-        self.canvas.itemconfig(self.buttonLabelList[34], text="0")
-        self.canvas.itemconfig(self.buttonLabelList[35], text="P")
-        self.canvas.itemconfig(self.buttonLabelList[36], text=";")
-        self.canvas.itemconfig(self.buttonLabelList[37], text="/")
-
-        self.canvas.itemconfig(self.buttonLabelList[38], text="9")
-        self.canvas.itemconfig(self.buttonLabelList[39], text="O")
-        self.canvas.itemconfig(self.buttonLabelList[40], text="L")
-        self.canvas.itemconfig(self.buttonLabelList[41], text=".")
-
-        self.canvas.itemconfig(self.buttonLabelList[42], text="8")
-        self.canvas.itemconfig(self.buttonLabelList[43], text="I")
-        self.canvas.itemconfig(self.buttonLabelList[44], text="K")
-        self.canvas.itemconfig(self.buttonLabelList[45], text=",")
-        self.canvas.itemconfig(self.buttonLabelList[46], text="Enter")
-
-        self.canvas.itemconfig(self.buttonLabelList[47], text="7")
-        self.canvas.itemconfig(self.buttonLabelList[48], text="U")
-        self.canvas.itemconfig(self.buttonLabelList[49], text="J")
-        self.canvas.itemconfig(self.buttonLabelList[50], text="M")
-        self.canvas.itemconfig(self.buttonLabelList[51], text="Delete")
-
-        self.canvas.itemconfig(self.buttonLabelList[52], text="6")
-        self.canvas.itemconfig(self.buttonLabelList[53], text="Y")
-        self.canvas.itemconfig(self.buttonLabelList[54], text="H")
-        self.canvas.itemconfig(self.buttonLabelList[55], text="N")
-        self.canvas.itemconfig(self.buttonLabelList[56], text="Backspace")
-
-        self.canvas.itemconfig(self.buttonLabelList[57], text="RCtrl")
-        self.canvas.itemconfig(self.buttonLabelList[58], text="Spacebar")
-
-        self.canvas.itemconfig(self.buttonLabelList[59], text="RShift")
+        # self.canvas.itemconfig(self.buttonLabelList[0], text="Escape")
+        # self.canvas.itemconfig(self.buttonLabelList[1], text="Tab")
+        # self.canvas.itemconfig(self.buttonLabelList[2], text="Caps Lock")
+        # self.canvas.itemconfig(self.buttonLabelList[3], text="LShift")
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[4], text="1")
+        # self.canvas.itemconfig(self.buttonLabelList[5], text="Q")
+        # self.canvas.itemconfig(self.buttonLabelList[6], text="A")
+        # self.canvas.itemconfig(self.buttonLabelList[7], text="Z")
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[8], text="2")
+        # self.canvas.itemconfig(self.buttonLabelList[9], text="W")
+        # self.canvas.itemconfig(self.buttonLabelList[10], text="S")
+        # self.canvas.itemconfig(self.buttonLabelList[11], text="X")
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[12], text="3")
+        # self.canvas.itemconfig(self.buttonLabelList[13], text="E")
+        # self.canvas.itemconfig(self.buttonLabelList[14], text="D")
+        # self.canvas.itemconfig(self.buttonLabelList[15], text="C")
+        # self.canvas.itemconfig(self.buttonLabelList[16], text="Home")
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[17], text="4")
+        # self.canvas.itemconfig(self.buttonLabelList[18], text="R")
+        # self.canvas.itemconfig(self.buttonLabelList[19], text="F")
+        # self.canvas.itemconfig(self.buttonLabelList[20], text="V")
+        # self.canvas.itemconfig(self.buttonLabelList[21], text="End")
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[22], text="5")
+        # self.canvas.itemconfig(self.buttonLabelList[23], text="T")
+        # self.canvas.itemconfig(self.buttonLabelList[24], text="G")
+        # self.canvas.itemconfig(self.buttonLabelList[25], text="B")
+        # self.canvas.itemconfig(self.buttonLabelList[26], text="LWin")
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[27], text="LCtrl")
+        # self.canvas.itemconfig(self.buttonLabelList[28], text="Spacebar")
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[29], text="LAlt")
+        #
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[30], text="=")
+        # self.canvas.itemconfig(self.buttonLabelList[31], text="[")
+        # self.canvas.itemconfig(self.buttonLabelList[32], text="]")
+        # self.canvas.itemconfig(self.buttonLabelList[33], text="'")
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[34], text="0")
+        # self.canvas.itemconfig(self.buttonLabelList[35], text="P")
+        # self.canvas.itemconfig(self.buttonLabelList[36], text=";")
+        # self.canvas.itemconfig(self.buttonLabelList[37], text="/")
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[38], text="9")
+        # self.canvas.itemconfig(self.buttonLabelList[39], text="O")
+        # self.canvas.itemconfig(self.buttonLabelList[40], text="L")
+        # self.canvas.itemconfig(self.buttonLabelList[41], text=".")
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[42], text="8")
+        # self.canvas.itemconfig(self.buttonLabelList[43], text="I")
+        # self.canvas.itemconfig(self.buttonLabelList[44], text="K")
+        # self.canvas.itemconfig(self.buttonLabelList[45], text=",")
+        # self.canvas.itemconfig(self.buttonLabelList[46], text="Enter")
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[47], text="7")
+        # self.canvas.itemconfig(self.buttonLabelList[48], text="U")
+        # self.canvas.itemconfig(self.buttonLabelList[49], text="J")
+        # self.canvas.itemconfig(self.buttonLabelList[50], text="M")
+        # self.canvas.itemconfig(self.buttonLabelList[51], text="Delete")
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[52], text="6")
+        # self.canvas.itemconfig(self.buttonLabelList[53], text="Y")
+        # self.canvas.itemconfig(self.buttonLabelList[54], text="H")
+        # self.canvas.itemconfig(self.buttonLabelList[55], text="N")
+        # self.canvas.itemconfig(self.buttonLabelList[56], text="Backspace")
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[57], text="RCtrl")
+        # self.canvas.itemconfig(self.buttonLabelList[58], text="Spacebar")
+        #
+        # self.canvas.itemconfig(self.buttonLabelList[59], text="RShift")
         
         # endregion
 
         # Adjust font sizes and spacing for specials
-        for button in self.buttonLabelList:
-            self.canvas.itemconfig(button, fill=self.KeycapColor)
-
-            if self.canvas.itemcget(button, "text") in self.specials:
-                self.canvas.itemconfig(button, text="\n"+self.canvas.itemcget(button, "text"), font=(self.KeycapFont, 9, "bold"))
-            else:
-                self.canvas.itemconfig(button, text=self.canvas.itemcget(button, "text").upper(), font=(self.KeycapFont, 13, "bold"))
-                if self.canvas.itemcget(button, "text") in special_doubles: # Deal with special doubles
-                    self.canvas.itemconfig(button, text=special_doubles[self.canvas.itemcget(button, "text")]+"\n"+self.canvas.itemcget(button, "text"))                      
-                elif self.canvas.itemcget(button, "text") in special_doubles.values():
-                    self.canvas.itemconfig(button, text=self.canvas.itemcget(button, "text")+"\n"+str(next((k for k, v in special_doubles.items() if v == self.canvas.itemcget(button, "text")), None)))
-                else:
-                    self.canvas.itemconfig(button, text="\n"+self.canvas.itemcget(button, "text"))
+        # for button in self.buttonLabelList:
+        #     self.canvas.itemconfig(button, fill=self.KeycapColor)
+        #
+        #     if self.canvas.itemcget(button, "text") in self.specials:
+        #         self.canvas.itemconfig(button, text="\n"+self.canvas.itemcget(button, "text"), font=(self.KeycapFont, 9, "bold"))
+        #     else:
+        #         self.canvas.itemconfig(button, text=self.canvas.itemcget(button, "text").upper(), font=(self.KeycapFont, 13, "bold"))
+        #         if self.canvas.itemcget(button, "text") in special_doubles: # Deal with special doubles
+        #             self.canvas.itemconfig(button, text=special_doubles[self.canvas.itemcget(button, "text")]+"\n"+self.canvas.itemcget(button, "text"))                      
+        #         elif self.canvas.itemcget(button, "text") in special_doubles.values():
+        #             self.canvas.itemconfig(button, text=self.canvas.itemcget(button, "text")+"\n"+str(next((k for k, v in special_doubles.items() if v == self.canvas.itemcget(button, "text")), None)))
+        #         else:
+        #             self.canvas.itemconfig(button, text="\n"+self.canvas.itemcget(button, "text"))
        
     # Used to save current mapping
     def OnSaveClick(self, event=None):
