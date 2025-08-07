@@ -72,9 +72,12 @@ void i2cCheckAndRecover() {
   case TWI_MR_SLA_ACK:
   case TWI_MR_DATA_ACK:
   case TWI_MR_DATA_NACK:
+  case 0xF8:
     fix = 0;
+    break;
   default:
     fix = 1;
+    break;
   }
 
   // Fix is not working forsome reason, I believe this is what is causing issues
@@ -87,6 +90,7 @@ void i2cCheckAndRecover() {
     delay(10000);
 
     i2cInitMaster();
+    setOutPin(0, LOW);
   }
 }
 

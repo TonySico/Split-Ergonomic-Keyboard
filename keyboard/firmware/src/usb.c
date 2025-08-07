@@ -987,33 +987,33 @@ void usb_send_matrix(uint8_t *zero_status, uint8_t *current_status, uint8_t new_
   // Check if new report is empty
   *zero_status = new_keyboard_modifier;
   for (int i = 0; i < 6; i++) {
-    zero_status += new_keyboard_pressed_keys[i];
+    *zero_status += new_keyboard_pressed_keys[i];
   }
 
-  if (!zero_status && !current_status) { // Both empty, do nothing
-    // return;
+  if (!*zero_status && !*current_status) { // Both empty, do nothing
+    return;
 
-  } else if (zero_status && !current_status) { // New keypresses (must send)
+  } else if (*zero_status && !*current_status) { // New keypresses (must send)
     for (int i = 0; i < 6; i++) {
       keyboard_pressed_keys[i] = new_keyboard_pressed_keys[i];
     }
     keyboard_modifier = new_keyboard_modifier;
     usb_send_keypress();
     *current_status = 1;
-    // return;
+    return;
 
-  } else if (!zero_status &&
-             current_status) { // No longer any keypresses (must send blank)
+  } else if (!*zero_status &&
+             *current_status) { // No longer any keypresses (must send blank)
     for (int i = 0; i < 6; i++) {
       keyboard_pressed_keys[i] = 0x00;
     }
     keyboard_modifier = 0x00;
     usb_send_keypress();
     *current_status = 0;
-    // return;
+    return;
 
-  } else if (zero_status &&
-             current_status) { // Replace keypresses (and check if held down)
+  } else if (*zero_status &&
+             *current_status) { // Replace keypresses (and check if held down)
     int identical = 1;
     for (int i = 0; i < 6; i++) {
       if (keyboard_pressed_keys[i] != new_keyboard_pressed_keys[i]) {
@@ -1021,7 +1021,7 @@ void usb_send_matrix(uint8_t *zero_status, uint8_t *current_status, uint8_t new_
       }
     }
     if (identical) {
-      // return;
+      return;
     } else {
       for (int i = 0; i < 6; i++) {
         keyboard_pressed_keys[i] = new_keyboard_pressed_keys[i];
