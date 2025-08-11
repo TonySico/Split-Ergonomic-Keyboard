@@ -82,6 +82,8 @@ int main(void) {
   uint8_t keyMatrixSlave[NUM_IN_PIN];
   uint8_t keyMatrix[NUM_IN_PIN * 2];
 
+  uint8_t layer = 0;
+
   uint8_t new_keyboard_pressed_keys[6] = {0, 0, 0, 0, 0, 0};
   uint8_t new_keyboard_modifier = 0;
 
@@ -116,13 +118,16 @@ int main(void) {
     // Combine master's matrix and slave's matrix
     combine(keyMatrixMaster, keyMatrixSlave, keyMatrix);
 
+    check_layer(keyMatrix, &layer);
+
     // Deal with sending any macros first, then move onto regular keypresses
-    send_macros(keyMatrix, new_keyboard_pressed_keys, &new_keyboard_modifier);
+    send_macros(keyMatrix, new_keyboard_pressed_keys, &new_keyboard_modifier,
+                layer);
 
     // Encode contents of combined matrix into USB-formmated modifier and
     // keypresses
     encode_keypresses(keyMatrix, new_keyboard_pressed_keys,
-                      &new_keyboard_modifier);
+                      &new_keyboard_modifier, layer);
 
     // now that all the contents is encoded, we actually send the packets via
     // usb

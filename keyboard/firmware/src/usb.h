@@ -226,7 +226,7 @@ void usb_send_keypress();
  *  @modifier: Byte that this function will modify to contain the modifier bits (USB-formatted byte, one bit for each modifier key (ex. LShift, RAlt, etc.))
  *
  */
-void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifier);
+void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifier, uint8_t layer);
 
 /**
  *  @send_macros@
@@ -237,7 +237,7 @@ void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* 
  *  @modifier: Byte that this function will save, then use to send macros, then restore.
  *
  */
-void send_macros(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifier);
+void send_macros(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifier, uint8_t layer);
 
 
 /**

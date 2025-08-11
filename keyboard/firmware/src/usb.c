@@ -891,7 +891,22 @@ void usb_send_keypress(){
     return;
 }
 
-void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifier){
+void check_layer(uint8_t* combinedMatrix, uint8_t* layer){
+  for(int inPin = 0; inPin < 2*NUM_IN_PIN; inPin++){
+    for(int outPin = 0; outPin < NUM_OUT_PIN; outPin++){
+      if((combinedMatrix[inPin] >> outPin) & 0x1){
+        uint8_t keypress = mapping[*layer][inPin][outPin];
+        if(keypress >= 0xF0 && keypress <= 0xFE) {
+          if(keypress == 0xF0) {*layer += 1; return;}
+          if(keypress == 0xF1) {*layer -= 1; return;}
+        }
+      }
+    }
+  }
+  return;
+}
+
+void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifier, uint8_t layer){
     int numPressed = 0;
 
     *modifier = 0x00;
@@ -903,7 +918,7 @@ void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* 
         for(int outPin = 0; outPin < NUM_OUT_PIN; outPin++){
             if((combinedMatrix[inPin] >> outPin) & 0x1){
 
-                uint8_t keypress = mapping[inPin][outPin];
+                uint8_t keypress = mapping[layer][inPin][outPin];
                 numPressed++;
 
                 if(numPressed > 6) { // Too many keys pressed, error out (send 6x "keyboard_pressed_keys" values and 0x0 modifier)
@@ -914,15 +929,8 @@ void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* 
                     return;
                 }
 
-                if (keypress > 0xDD){ // Modifier key
-                    if(keypress == 0xE0){*modifier |= (1 << 0); continue;} //Left Control
-                    if(keypress == 0xE1){*modifier |= (1 << 1); continue;} //Left Shift
-                    if(keypress == 0xE2){*modifier |= (1 << 2); continue;} //Left Alt
-                    if(keypress == 0xE3){*modifier |= (1 << 3); continue;} //Left GUI (Windows / OSX's command-key)
-                    if(keypress == 0xE4){*modifier |= (1 << 4); continue;} //Right Control
-                    if(keypress == 0xE5){*modifier |= (1 << 5); continue;} //Right Shift
-                    if(keypress == 0xE6){*modifier |= (1 << 6); continue;} //Right Alt
-                    if(keypress == 0xE7){*modifier |= (1 << 7); continue;} //Right GUI (Windows / OSX's command-key)
+                if (keypress >= 0xE0 && keypress <= 0xE7){ // Modifier key range 0xE0 -> 0xE7
+                    *modifier |= 1 << (keypress & 0x0F);
                 } else { // Normal key pressed
                     pressed_keys[numPressed-1] = keypress;
                 }
@@ -931,7 +939,8 @@ void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* 
     }
 } 
 
-void send_macros(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifier){
+// TODO: Combine send macros with encode_keypress
+void send_macros(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifier, uint8_t layer){
     // Check if any macro keys are pressed
         // If not, return without modifying anything
         // If yes,
@@ -949,7 +958,7 @@ void send_macros(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifi
     for(int inPin = 0; inPin < 2*NUM_IN_PIN; inPin++){
         for(int outPin = 0; outPin < NUM_OUT_PIN; outPin++){
             if((combinedMatrix[inPin] >> outPin) & 0x1){ // If key is pressed 
-                uint8_t keypress = mapping[inPin][outPin]; // Get mapping
+                uint8_t keypress = mapping[layer][inPin][outPin]; // Get mapping
                 if (keypress > 0xE7) { // Is this a macro?
                     combinedMatrix[inPin] &= ~(1 << outPin); // Un-set this key as pressed
                     macros_to_send[macro_count] = keypress; // Save this macro as one we need to send
