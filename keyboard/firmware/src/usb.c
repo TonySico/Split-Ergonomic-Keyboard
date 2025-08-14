@@ -891,34 +891,44 @@ void usb_send_keypress(){
     return;
 }
 
-void check_layer(uint8_t* combinedMatrix, uint8_t* layer){
-  for(int inPin = 0; inPin < 2*NUM_IN_PIN; inPin++){
-    for(int outPin = 0; outPin < NUM_OUT_PIN; outPin++){
-      if((combinedMatrix[inPin] >> outPin) & 0x1){
-        uint8_t keypress = mapping[*layer][inPin][outPin];
-        if(keypress >= 0xF0 && keypress <= 0xFE) {
-          if(keypress == 0xF0) {*layer += 1; return;}
-          if(keypress == 0xF1) {*layer -= 1; return;}
-        }
-      }
-    }
-  }
-  return;
-}
+// void check_layer(uint8_t* combinedMatrix, uint8_t* layer){
+//   for(int inPin = 0; inPin < 2*NUM_IN_PIN; inPin++){
+//     for(int outPin = 0; outPin < NUM_OUT_PIN; outPin++){
+//       if((combinedMatrix[inPin] >> outPin) & 0x1){
+//         uint8_t keypress = mapping[*layer][inPin][outPin];
+//       }
+//     }
+//   }
+//   return;
+// }
 
-void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifier, uint8_t layer){
-    int numPressed = 0;
+void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifier, uint8_t* layer){
+    uint8_t numPressed = 0;
+
+    uint8_t old_pressed_keys[6];
+    uint8_t old_modifier;
+
+    uint8_t macros_to_send[8] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF}; // Start out as all blanks
 
     *modifier = 0x00;
     for(int i = 0; i < 6; i++){
         pressed_keys[i] = 0x00;
     }
 
+    uint8_t macro_count = 0;
     for(int inPin = 0; inPin < 2*NUM_IN_PIN; inPin++){
         for(int outPin = 0; outPin < NUM_OUT_PIN; outPin++){
-            if((combinedMatrix[inPin] >> outPin) & 0x1){
-
-                uint8_t keypress = mapping[layer][inPin][outPin];
+            if((combinedMatrix[inPin] >> outPin) & 0x1){ // If key is pressed 
+                uint8_t keypress = mapping[layer][inPin][outPin]; // Get mapping
+        if(keypress >= 0xF0 && keypress <= 0xFE) {
+          if(keypress == 0xF0) {*layer += 1; return;}
+          if(keypress == 0xF1) {*layer -= 1; return;}
+        }
+                if (keypress > 0xE7) { // Is this a macro?
+                    combinedMatrix[inPin] &= ~(1 << outPin); // Un-set this key as pressed
+                    macros_to_send[macro_count] = keypress; // Save this macro as one we need to send
+                    macro_count += 1;
+                } 
                 numPressed++;
 
                 if(numPressed > 6) { // Too many keys pressed, error out (send 6x "keyboard_pressed_keys" values and 0x0 modifier)
@@ -934,36 +944,6 @@ void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* 
                 } else { // Normal key pressed
                     pressed_keys[numPressed-1] = keypress;
                 }
-            }
-        }
-    }
-} 
-
-// TODO: Combine send macros with encode_keypress
-void send_macros(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifier, uint8_t layer){
-    // Check if any macro keys are pressed
-        // If not, return without modifying anything
-        // If yes,
-            // Record which macros must be sent by looking up mapping array
-            // Set those macro keys as unpressed in the combinedMatrix
-            // Save current pressed_keys and modifier 
-            // Send each macro one after the other
-            // Restore pressed_keys and modifier then return 
-    uint8_t old_pressed_keys[6];
-    uint8_t old_modifier;
-
-    uint8_t macros_to_send[8] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF}; // Start out as all blanks
-
-    uint8_t macro_count = 0;
-    for(int inPin = 0; inPin < 2*NUM_IN_PIN; inPin++){
-        for(int outPin = 0; outPin < NUM_OUT_PIN; outPin++){
-            if((combinedMatrix[inPin] >> outPin) & 0x1){ // If key is pressed 
-                uint8_t keypress = mapping[layer][inPin][outPin]; // Get mapping
-                if (keypress > 0xE7) { // Is this a macro?
-                    combinedMatrix[inPin] &= ~(1 << outPin); // Un-set this key as pressed
-                    macros_to_send[macro_count] = keypress; // Save this macro as one we need to send
-                    macro_count += 1;
-                } 
             }
         }
     }
@@ -989,7 +969,61 @@ void send_macros(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifi
     } else {
         return;
     }
-}
+} 
+
+// TODO: Combine send macros with encode_keypress
+//       I believe this function is no longer needed, and all work can live in the encode_keypress function
+//
+// void send_macros(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifier, uint8_t layer){
+//     // Check if any macro keys are pressed
+//         // If not, return without modifying anything
+//         // If yes,
+//             // Record which macros must be sent by looking up mapping array
+//             // Set those macro keys as unpressed in the combinedMatrix
+//             // Save current pressed_keys and modifier 
+//             // Send each macro one after the other
+//             // Restore pressed_keys and modifier then return 
+//     uint8_t old_pressed_keys[6];
+//     uint8_t old_modifier;
+//
+//     uint8_t macros_to_send[8] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF}; // Start out as all blanks
+//
+//     uint8_t macro_count = 0;
+//     for(int inPin = 0; inPin < 2*NUM_IN_PIN; inPin++){
+//         for(int outPin = 0; outPin < NUM_OUT_PIN; outPin++){
+//             if((combinedMatrix[inPin] >> outPin) & 0x1){ // If key is pressed 
+//                 uint8_t keypress = mapping[layer][inPin][outPin]; // Get mapping
+//                 if (keypress > 0xE7) { // Is this a macro?
+//                     combinedMatrix[inPin] &= ~(1 << outPin); // Un-set this key as pressed
+//                     macros_to_send[macro_count] = keypress; // Save this macro as one we need to send
+//                     macro_count += 1;
+//                 } 
+//             }
+//         }
+//     }
+//
+//     if (macro_count){ // We have some macros to send
+//         for (int i = 0; i < 6; i++){ // Save old pressed keys
+//             old_pressed_keys[i] = pressed_keys[i];
+//         }
+//         old_modifier = *modifier; // Save old modifier byte
+//         
+//         // Send macros
+//         for (int i = 0; i < macro_count; i++){
+//             send_message(macros[macros_to_send[i]-0xE8]); // Get char* to macro string to send
+//             delay(50000/strlen(macros[macros_to_send[i]-0xE8]));
+//         }
+//
+//         // Restore pressed_keys and modifier
+//         for (int i = 0; i < 6; i++){ 
+//             pressed_keys[i] = old_pressed_keys[i];
+//         }
+//         *modifier = old_modifier; 
+//         return;
+//     } else {
+//         return;
+//     }
+// }
 
 void usb_send_matrix(uint8_t *zero_status, uint8_t *current_status, uint8_t new_keyboard_modifier, uint8_t *new_keyboard_pressed_keys ) {
  

@@ -118,11 +118,11 @@ int main(void) {
     // Combine master's matrix and slave's matrix
     combine(keyMatrixMaster, keyMatrixSlave, keyMatrix);
 
-    check_layer(keyMatrix, &layer);
+    // check_layer(keyMatrix, &layer);
 
     // Deal with sending any macros first, then move onto regular keypresses
-    send_macros(keyMatrix, new_keyboard_pressed_keys, &new_keyboard_modifier,
-                layer);
+    // send_macros(keyMatrix, new_keyboard_pressed_keys, &new_keyboard_modifier,
+    // layer);
 
     // Encode contents of combined matrix into USB-formmated modifier and
     // keypresses

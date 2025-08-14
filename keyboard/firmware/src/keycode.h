@@ -49,10 +49,10 @@
 #define KC_SPACE 0x2C
 #define KC_MINUS 0x2D
 #define KC_EQUAL 0x2E
-#define KC_LEFT_BRACKET 0x2F
-#define KC_RIGHT_BRACKET 0x30
+#define KC_LEFT_SQ_BRACKET 0x2F
+#define KC_RIGHT_SQ_BRACKET 0x30
 #define KC_BACKSLASH 0x31
-#define KC_NON_US_HASH 0x32
+#define KC_HASH 0x32
 #define KC_SEMICOLON 0x33
 #define KC_APOSTROPHE 0x34
 #define KC_GRAVE 0x35
@@ -121,10 +121,10 @@
 #define KC_LEFT_CTRL 0xE0
 #define KC_LEFT_SHIFT 0xE1
 #define KC_LEFT_ALT 0xE2
-#define KC_LEFT_GUI 0xE3
+#define KC_LEFT_SUPER 0xE3
 #define KC_RIGHT_CTRL 0xE4
 #define KC_RIGHT_SHIFT 0xE5
 #define KC_RIGHT_ALT 0xE6
-#define KC_RIGHT_GUI 0xE7
+#define KC_RIGHT_SUPER 0xE7
 
 #endif // KEYCODE_H

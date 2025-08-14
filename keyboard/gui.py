@@ -168,112 +168,112 @@ special_doubles = {
 
 # This is used to map from keys to USB codes
 m = {
-    "a": "0x04", "A": "0x04",
-    "b": "0x05", "B": "0x05",
-    "c": "0x06", "C": "0x06",
-    "d": "0x07", "D": "0x07",
-    "e": "0x08", "E": "0x08",
-    "f": "0x09", "F": "0x09",
-    "g": "0x0A", "G": "0x0A",
-    "h": "0x0B", "H": "0x0B",
-    "i": "0x0C", "I": "0x0C",
-    "j": "0x0D", "J": "0x0D",
-    "k": "0x0E", "K": "0x0E",
-    "l": "0x0F", "L": "0x0F",
-    "m": "0x10", "M": "0x10",
-    "n": "0x11", "N": "0x11",
-    "o": "0x12", "O": "0x12",
-    "p": "0x13", "P": "0x13",
-    "q": "0x14", "Q": "0x14",
-    "r": "0x15", "R": "0x15",
-    "s": "0x16", "S": "0x16",
-    "t": "0x17", "T": "0x17",
-    "u": "0x18", "U": "0x18",
-    "v": "0x19", "V": "0x19",
-    "w": "0x1A", "W": "0x1A",
-    "x": "0x1B", "X": "0x1B",
-    "y": "0x1C", "Y": "0x1C",
-    "z": "0x1D", "Z": "0x1D",
-    "1": "0x1E", "!": "0x1E",
-    "2": "0x1F", "@": "0x1F",
-    "3": "0x20", "#": "0x20",
-    "4": "0x21", "$": "0x21",
-    "5": "0x22", "%": "0x22",
-    "6": "0x23", "^": "0x23", 
-    "7": "0x24", "&": "0x24",
-    "8": "0x25", "*": "0x25",
-    "9": "0x26", "(": "0x26",
-    "0": "0x27", ")": "0x27",
-    "\n": "0x28", "\r": "0x28",
-    "ESC": "0x29",
-    "\b": "0x2A",  # Backspace
-    "\t": "0x2B",  # Tab
-    " ": "0x2C",  # Spacebar
-    "-": "0x2D", "_": "0x2D",
-    "=": "0x2E", "+": "0x2E",
-    "[": "0x2F", "{": "0x2F",
-    "]": "0x30", "}": "0x30",
-    "\\": "0x31", "|": "0x31",
-    "#": "0x32", "~": "0x32",  # Non-US # and ~
-    ";": "0x33", ":": "0x33",
-    "'": "0x34", '"': "0x34",
-    "`": "0x35", "~": "0x35",  # Grave accent and tilde
-    ",": "0x36", "<": "0x36",
-    ".": "0x37", ">": "0x37",
-    "/": "0x38", "?": "0x38",
-    "Caps Lock": "0x39",
-    "Enter": "0x28",  # Return (ENTER)
-    "Escape": "0x29",
-    "Backspace": "0x2A",
-    "Tab": "0x2B",
-    "Spacebar": "0x2C",
-    "PrintScr": "0x46",  # PrintScreen
-    "ScrollLck": "0x47",  # Scroll Lock
-    "Pause": "0x48",  # Pause
-    "Insert": "0x49",
-    "Home": "0x4A",
-    "PageUp": "0x4B",
-    "Delete": "0x4C",
-    "End": "0x4D",
-    "PageDown": "0x4E",
-    "RightArrow": "0x4F",
-    "LeftArrow": "0x50",
-    "DownArrow": "0x51",
-    "UpArrow": "0x52",
-    "NumLck": "0x53",  # Num Lock
-    "KeypadEnter": "0x58",  # Keypad Enter
-    "LCtrl": "0xE0",  # Left Control
-    "LShift": "0xE1",  # Left Shift
-    "LAlt": "0xE2",  # Left Alt
-    "LWin": "0xE3",  # Left GUI (Windows)
-    "RCtrl": "0xE4",  # Right Control
-    "RShift": "0xE5",  # Right Shift
-    "RAlt": "0xE6",  # Right Alt
-    "RWin": "0xE7",  # Right GUI (Windows)
-    "F1": "0x3A", 
-    "F2": "0x3B",
-    "F3": "0x3C",
-    "F4": "0x3D",
-    "F5": "0x3E",
-    "F6": "0x3F",
-    "F7": "0x40",
-    "F8": "0x41",
-    "F9": "0x42",
-    "F10": "0x43",
-    "F11": "0x44",
-    "F12": "0x45",
-    "F13": "0x68",
-    "F14": "0x69",
-    "F15": "0x6A",
-    "F16": "0x6B",
-    "F17": "0x6C",
-    "F18": "0x6D",
-    "F19": "0x6E",
-    "F20": "0x6F",
-    "F21": "0x70",
-    "F22": "0x71",
-    "F23": "0x72",
-    "F24": "0x73"
+    "a": "KC_A", "A": "KC_A",
+    "b": "KC_B", "B": "KC_B",
+    "c": "KC_C", "C": "KC_C",
+    "d": "KC_D", "D": "KC_D",
+    "e": "KC_E", "E": "KC_E",
+    "f": "KC_F", "F": "KC_F",
+    "g": "KC_G", "G": "KC_G",
+    "h": "KC_H", "H": "KC_H",
+    "i": "KC_I", "I": "KC_I",
+    "j": "KC_J", "J": "KC_J",
+    "k": "KC_K", "K": "KC_K",
+    "l": "KC_L", "L": "KC_L",
+    "m": "KC_M", "M": "KC_M",
+    "n": "KC_N", "N": "KC_N",
+    "o": "KC_O", "O": "KC_O",
+    "p": "KC_P", "P": "KC_P",
+    "q": "KC_Q", "Q": "KC_Q",
+    "r": "KC_R", "R": "KC_R",
+    "s": "KC_S", "S": "KC_S",
+    "t": "KC_T", "T": "KC_T",
+    "u": "KC_U", "U": "KC_U",
+    "v": "KC_V", "V": "KC_V",
+    "w": "KC_W", "W": "KC_W",
+    "x": "KC_X", "X": "KC_X",
+    "y": "KC_Y", "Y": "KC_Y",
+    "z": "KC_Z", "Z": "KC_Z",
+    "1": "KC_1", "!": "KC_1",
+    "2": "KC_2", "@": "KC_2",
+    "3": "KC_3", "#": "KC_3",
+    "4": "KC_4", "$": "KC_4",
+    "5": "KC_5", "%": "KC_5",
+    "6": "KC_6", "^": "KC_6", 
+    "7": "KC_7", "&": "KC_7",
+    "8": "KC_8", "*": "KC_8",
+    "9": "KC_9", "(": "KC_9",
+    "0": "KC_0", ")": "KC_0",
+    "\n": "KC_ENTER", "\r": "KC_ENTER",
+    "ESC": "KC_ESCAPE",
+    "\b": "KC_BACKSPACE",  # Backspace
+    "\t": "KC_TAB",  # Tab
+    " ": "KC_SPACE",  # Spacebar
+    "-": "KC_MINUS", "_": "KC_MINUS",
+    "=": "KC_EQUAL", "+": "KC_EQUAL",
+    "[": "KC_LEFT_SQ_BRACKET", "{": "KC_LEFT_SQ_BRACKET",
+    "]": "KC_RIGHT_SQ_BRACKET", "}": "KC_RIGHT_SQ_BRACKET",
+    "\\": "KC_BACKSLASH", "|": "KC_BACKSLASH",
+    "#": "KC_HASH", "~": "KC_HASH",  # Non-US # and ~
+    ";": "KC_SEMICOLON", ":": "KC_SEMICOLON",
+    "'": "KC_APOSTROPHE", '"': "KC_APOSTROPHE",
+    "`": "KC_GRAVE", "~": "KC_GRAVE",  # Grave accent and tilde
+    ",": "KC_COMMA", "<": "KC_COMMA",
+    ".": "KC_PERIOD", ">": "KC_PERIOD",
+    "/": "KC_SLASH", "?": "KC_SLASH",
+    "Caps Lock": "KC_CAPS_LOCK",
+    "Enter": "KC_ENTER",  # Return (ENTER)
+    "Escape": "KC_ESCAPE",
+    "Backspace": "KC_BACKSPACE",
+    "Tab": "KC_TAB",
+    "Spacebar": "KC_SPACE",
+    "PrintScr": "KC_PRINT_SCREEN",  # PrintScreen
+    "ScrollLck": "KC_SCROLL_LOCK",  # Scroll Lock
+    "Pause": "KC_PAUSE",  # Pause
+    "Insert": "KC_INSERT",
+    "Home": "KC_HOME",
+    "PageUp": "KC_PAGE_UP",
+    "Delete": "KC_DELETE",
+    "End": "KC_END",
+    "PageDown": "KC_PAGE_DOWN",
+    "RightArrow": "KC_RIGHT_ARROW",
+    "LeftArrow": "KC_LEFT_ARROW",
+    "DownArrow": "KC_DOWN_ARROW",
+    "UpArrow": "KC_UP_ARROW",
+    "NumLck": "KC_NUM_LOCK",  # Num Lock
+    "KeypadEnter": "KC_KP_ENTER",  # Keypad Enter
+    "LCtrl":  "KC_LEFT_CTRL",  # Left Control
+    "LShift": "KC_LEFT_SHIFT",  # Left Shift
+    "LAlt":   "KC_LEFT_ALT",  # Left Alt
+    "LWin":   "KC_LEFT_SUPER",  # Left GUI (Windows)
+    "RCtrl":  "KC_RIGHT_CTRL",  # Right Control
+    "RShift": "KC_RIGHT_SHIFT",  # Right Shift
+    "RAlt":   "KC_RIGHT_ALT",  # Right Alt
+    "RWin":   "KC_RIGHT_SUPER",  # Right GUI (Windows)
+    "F1": "KC_F1", 
+    "F2": "KC_F2",
+    "F3": "KC_F3",
+    "F4": "KC_F4",
+    "F5": "KC_F5",
+    "F6": "KC_F6",
+    "F7": "KC_F7",
+    "F8": "KC_F8",
+    "F9": "KC_F9",
+    "F10": "KC_F10",
+    "F11": "KC_F11",
+    "F12": "KC_F12",
+    "F13": "KC_F13",
+    "F14": "KC_F14",
+    "F15": "KC_F15",
+    "F16": "KC_F16",
+    "F17": "KC_F17",
+    "F18": "KC_F18",
+    "F19": "KC_F19",
+    "F20": "KC_F20",
+    "F21": "KC_F21",
+    "F22": "KC_F22",
+    "F23": "KC_F23",
+    "F24": "KC_F24"
 }
 
 # This is the main window
@@ -685,8 +685,17 @@ class MainWindow(Frame):
         mapping = []
 
         if self.masterBoard == "Right":
-            mapping=[k[0], k[4], k[8], k[12], k[17], k[22],   k[1], k[5], k[9], k[13], k[18], k[23],    k[2], k[6], k[10], k[14], k[19], k[24],     k[3], k[7], k[11], k[15], k[20], k[25],    k[16], k[21], k[26], k[28], k[27], k[29],
-                    k[30], k[34], k[38], k[42], k[47], k[52],   k[31], k[35], k[39], k[43], k[48], k[53],    k[32], k[36], k[40], k[44], k[49], k[54],     k[33], k[37], k[41], k[45], k[50], k[55],    k[46], k[51], k[56], k[58], k[57], k[59]]
+            mapping=[k[0], k[4], k[8], k[12], k[17], k[22],
+                     k[1], k[5], k[9], k[13], k[18], k[23],    
+                     k[2], k[6], k[10], k[14], k[19], k[24],     
+                     k[3], k[7], k[11], k[15], k[20], k[25],    
+                     k[16], k[21], k[26], k[28], k[27], k[29],
+
+                     k[30], k[34], k[38], k[42], k[47], k[52],   
+                     k[31], k[35], k[39], k[43], k[48], k[53],
+                     k[32], k[36], k[40], k[44], k[49], k[54],     
+                     k[33], k[37], k[41], k[45], k[50], k[55],    
+                     k[46], k[51], k[56], k[58], k[57], k[59]]
         else:
             mapping=[k[30], k[34], k[38], k[42], k[47], k[52],   k[31], k[35], k[39], k[43], k[48], k[53],    k[32], k[36], k[40], k[44], k[49], k[54],     k[33], k[37], k[41], k[45], k[50], k[55],    k[46], k[51], k[56], k[58], k[57], k[59],
                      k[0], k[4], k[8], k[12], k[17], k[22],   k[1], k[5], k[9], k[13], k[18], k[23],    k[2], k[6], k[10], k[14], k[19], k[24],     k[3], k[7], k[11], k[15], k[20], k[25],    k[16], k[21], k[26], k[28], k[27], k[29]]
@@ -696,22 +705,27 @@ class MainWindow(Frame):
             f = open("firmware\src\mapping.c", "w+")
         elif os.name == 'posix': # linux
             f = open("firmware/src/mapping.c", "w+")
-        f.write("#include \"mapping.h\"\n\n")
-        f.write("const uint8_t mapping[2*NUM_IN_PIN][NUM_OUT_PIN] =\n")
-        f.write("{   {")
-        for i in range(len(mapping)):
-            if i==30:
-                f.write("},\n    {")
-            elif not (i % 6) and i:
-                f.write("}, {")
-            elif i:
-                f.write(", ")
-            if mapping[i] in self.macros:
-                f.write(str(hex(current_macro_mapping)))
-                current_macro_mapping += 1
-            else:
-                f.write(str(m[mapping[i]]))
-        f.write("}};\n\n// Generated by software. First row is slave mappings, second is master's.")            
+        layerCount = 2
+        f.write("#include \"mapping.h\"\n")
+        f.write("#include \"keycode.h\"\n\n")
+        f.write("const uint8_t mapping[" + str(layerCount) + "][2*NUM_IN_PIN][NUM_OUT_PIN] = {")
+        for i in range(layerCount):
+            f.write("\n\t\t{ // Layer: " + str(i+1) + "\n\t\t {")
+            for j in range(len(mapping)):
+                if j==30:
+                    f.write("},\n\n     {")
+                elif not (j % 6) and j:
+                    f.write("},\n     {")
+                elif j:
+                    f.write(", ")
+                if mapping[j] in self.macros:
+                    f.write(str(hex(current_macro_mapping)))
+                    current_macro_mapping += 1
+                else:
+                    f.write(str(m[mapping[j]]))
+            f.write("}\n\t\t},\n")
+
+        f.write("};\n\n// Generated by software. First row is slave mappings, second is master's.")            
         f.close()
 
         # Write out macro file
