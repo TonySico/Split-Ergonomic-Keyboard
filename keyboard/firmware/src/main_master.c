@@ -127,7 +127,7 @@ int main(void) {
     // Encode contents of combined matrix into USB-formmated modifier and
     // keypresses
     encode_keypresses(keyMatrix, new_keyboard_pressed_keys,
-                      &new_keyboard_modifier, layer);
+                      &new_keyboard_modifier, &layer);
 
     // now that all the contents is encoded, we actually send the packets via
     // usb

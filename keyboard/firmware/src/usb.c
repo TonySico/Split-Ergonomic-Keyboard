@@ -919,7 +919,7 @@ void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* 
     for(int inPin = 0; inPin < 2*NUM_IN_PIN; inPin++){
         for(int outPin = 0; outPin < NUM_OUT_PIN; outPin++){
             if((combinedMatrix[inPin] >> outPin) & 0x1){ // If key is pressed 
-                uint8_t keypress = mapping[layer][inPin][outPin]; // Get mapping
+                uint8_t keypress = mapping[*layer][inPin][outPin]; // Get mapping
         if(keypress >= 0xF0 && keypress <= 0xFE) {
           if(keypress == 0xF0) {*layer += 1; return;}
           if(keypress == 0xF1) {*layer -= 1; return;}
