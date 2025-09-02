@@ -118,8 +118,6 @@ int main(void) {
     // Combine master's matrix and slave's matrix
     combine(keyMatrixMaster, keyMatrixSlave, keyMatrix);
 
-    // check_layer(keyMatrix, &layer);
-
     // Deal with sending any macros first, then move onto regular keypresses
     // send_macros(keyMatrix, new_keyboard_pressed_keys, &new_keyboard_modifier,
     // layer);
@@ -133,5 +131,8 @@ int main(void) {
     // usb
     usb_send_matrix(&zero_status, &current_status, new_keyboard_modifier,
                     new_keyboard_pressed_keys);
+
+    // always show what layer is active
+    showLayer(layer);
   }
 }

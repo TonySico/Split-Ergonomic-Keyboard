@@ -156,6 +156,14 @@ void configureOut(uint8_t pinNumber);
  */
 void configureIn(uint8_t pinNumber, uint8_t setting);
 
+/**
+ *  @showLayer
+ *  shows the current layer briefly
+ *  @layer: the layer currently in use that will be printed
+ *
+ */
+void showLayer(uint8_t layer);
+
 void sanity(int loop);
 
 /**

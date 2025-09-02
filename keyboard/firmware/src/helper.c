@@ -188,12 +188,13 @@ void togglePin(uint8_t pinNumber) {
  */
 void setOutPin(uint8_t pinNumber, uint8_t highLow) {
   switch (pinNumber) {
-  case 0: // B0 NOTE: Must invert (not / !) highLow value as the pin is
+  case 0: // B0  NOTE: Must invert (not / !) highLow value as the pin is
           // active-low
     *PORTB = (*PORTB & ~(1 << onBoardLEDRight)) | (!highLow << onBoardLEDRight);
     break;
-  case 1: // D5
-    *PORTD = (*PORTD & ~(1 << onBoardLEDLeft)) | (highLow << onBoardLEDLeft);
+  case 1: // D5 NOTE: Must invert (not / !) highLow value as the pin is
+          // active-low
+    *PORTD = (*PORTD & ~(1 << onBoardLEDLeft)) | (!highLow << onBoardLEDLeft);
     break;
   case 2: // D1
     *PORTD = (*PORTD & ~(1 << pinD1)) | (highLow << pinD1);
@@ -462,6 +463,17 @@ void configureIn(uint8_t pinNumber, uint8_t setting) {
     return;
   }
   return;
+}
+
+/**
+ *  @showLayer
+ *  shows the current layer briefly
+ *  @layer: the layer currently in use that will be printed
+ *
+ */
+void showLayer(uint8_t layer) {
+  setOutPin(1, HIGH & (layer & 0x1));
+  setOutPin(0, HIGH & ((layer & 0x2) >> 1));
 }
 
 void sanity(int loop) {

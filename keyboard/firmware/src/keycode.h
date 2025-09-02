@@ -126,7 +126,7 @@
 #define KC_RIGHT_SHIFT 0xE5
 #define KC_RIGHT_ALT 0xE6
 #define KC_RIGHT_SUPER 0xE7
-#define KC_NEXT_LAYER 0xF0
-#define KC_PREV_LAYER 0xF1
+#define KC_NEXT_LAYER 0xF1
+#define KC_PREV_LAYER 0xF2
 
 #endif // KEYCODE_H
