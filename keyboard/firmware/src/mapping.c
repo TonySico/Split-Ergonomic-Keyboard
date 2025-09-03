@@ -1,7 +1,7 @@
 #include "mapping.h"
 #include "keycode.h"
 
-const uint8_t mapping[LAYER_COUNT][2*NUM_IN_PIN][NUM_OUT_PIN] = {
+const uint16_t mapping[LAYER_COUNT][2*NUM_IN_PIN][NUM_OUT_PIN] = {
 		{ // Layer: 1
 		 {KC_MINUS, KC_0, KC_9, KC_8, KC_7, KC_6},
      {KC_LEFT_SQ_BRACKET, KC_P, KC_O, KC_I, KC_U, KC_Y},

@@ -47,8 +47,8 @@
 #define low(x)   ((x) & 0xFF)
 #define high(x)  (((x)>>8) & 0xFF)
 
-extern volatile uint8_t keyboard_pressed_keys[];
-extern volatile uint8_t keyboard_modifier;
+extern volatile uint16_t keyboard_pressed_keys[];
+extern volatile uint16_t keyboard_modifier;
 
 // PLL / Clock
 extern volatile unsigned int *CLKSEL0; //Clock selection register (internal RC oscillator or external crystal)
@@ -188,7 +188,7 @@ void usb_ep0_setup();
  *  @length: Length of message, is modified to return length of new message
  *
  */
-void encode(char message[], uint8_t chars[], uint8_t modifiers[], int* length);
+void encode(char message[], uint16_t chars[], uint16_t modifiers[], int* length);
 
 /**
  *  @send_message
@@ -226,7 +226,7 @@ void usb_send_keypress();
  *  @modifier: Byte that this function will modify to contain the modifier bits (USB-formatted byte, one bit for each modifier key (ex. LShift, RAlt, etc.))
  *
  */
-void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* modifier, uint8_t* layer);
+void encode_keypresses(uint8_t* combinedMatrix, uint16_t* pressed_keys, uint16_t* modifier, uint8_t* layer);
 
 /**
  *  @send_macros@
@@ -249,7 +249,7 @@ void encode_keypresses(uint8_t* combinedMatrix, uint8_t* pressed_keys, uint8_t* 
  *  @zero_status
  *
  */
-void usb_send_matrix(uint8_t *zero_status, uint8_t *current_status, uint8_t new_keyboard_modifier, uint8_t *new_keyboard_pressed_keys );
+void usb_send_matrix(uint8_t *zero_status, uint8_t *current_status, uint16_t new_keyboard_modifier, uint16_t *new_keyboard_pressed_keys );
 
 // Device Descriptor
 static const uint8_t dev_des[] PROGMEM = {

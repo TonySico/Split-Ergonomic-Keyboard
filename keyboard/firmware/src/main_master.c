@@ -84,8 +84,8 @@ int main(void) {
 
   uint8_t layer = 0;
 
-  uint8_t new_keyboard_pressed_keys[6] = {0, 0, 0, 0, 0, 0};
-  uint8_t new_keyboard_modifier = 0;
+  uint16_t new_keyboard_pressed_keys[6] = {0, 0, 0, 0, 0, 0};
+  uint16_t new_keyboard_modifier = 0;
 
   // Is the current HID report empty (0) or non-empty (not 0)
   uint8_t current_status = 0;

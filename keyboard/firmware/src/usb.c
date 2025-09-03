@@ -7,8 +7,8 @@
 #include "helper.h"
 
 // Global array to hold current HID report and modifier value.
-volatile uint8_t keyboard_pressed_keys[6] = {0, 0, 0, 0, 0, 0};
-volatile uint8_t keyboard_modifier = 0;
+volatile uint16_t keyboard_pressed_keys[6] = {0, 0, 0, 0, 0, 0};
+volatile uint16_t keyboard_modifier = 0;
 
 // Key mapping
 // In pins are rows, out pins are columns
@@ -314,7 +314,8 @@ void usb_ep0_setup() {
   }
 }
 
-void encode(char message[], uint8_t chars[], uint8_t modifiers[], int *length) {
+void encode(char message[], uint16_t chars[], uint16_t modifiers[],
+            int *length) {
   // Pass message of length <orig_length>.
   // Also pass chars and modifiers arrays of same length which will contain
   // chars and modifier bytes. Length is changed to reflect new length
@@ -1139,8 +1140,8 @@ void encode(char message[], uint8_t chars[], uint8_t modifiers[], int *length) {
 void send_message(char *input) {
   char message[100]; // Raw macro text with modifier tags still present
   int length = 0;
-  uint8_t new_message[100];
-  uint8_t new_message_modifiers[100];
+  uint16_t new_message[100];
+  uint16_t new_message_modifiers[100];
 
   // Calculate length
   while (input[length] != '\0') {
@@ -1199,8 +1200,8 @@ void usb_send_keypress() {
   return;
 }
 
-void encode_keypresses(uint8_t *combinedMatrix, uint8_t *pressed_keys,
-                       uint8_t *modifier, uint8_t *layer) {
+void encode_keypresses(uint8_t *combinedMatrix, uint16_t *pressed_keys,
+                       uint16_t *modifier, uint8_t *layer) {
   uint8_t numPressed = 0;
 
   uint8_t old_pressed_keys[6];
@@ -1287,8 +1288,8 @@ void encode_keypresses(uint8_t *combinedMatrix, uint8_t *pressed_keys,
 }
 
 void usb_send_matrix(uint8_t *zero_status, uint8_t *current_status,
-                     uint8_t new_keyboard_modifier,
-                     uint8_t *new_keyboard_pressed_keys) {
+                     uint16_t new_keyboard_modifier,
+                     uint16_t *new_keyboard_pressed_keys) {
 
   // Check if new report is empty
   *zero_status = new_keyboard_modifier;
