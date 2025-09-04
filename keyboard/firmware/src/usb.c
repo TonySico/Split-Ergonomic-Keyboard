@@ -1218,21 +1218,23 @@ void encode_keypresses(uint8_t *combinedMatrix, uint16_t *pressed_keys,
   uint8_t macro_count = 0;
   for (int inPin = 0; inPin < 2 * NUM_IN_PIN; inPin++) {
     for (int outPin = 0; outPin < NUM_OUT_PIN; outPin++) {
-      if ((combinedMatrix[inPin] >> outPin) & 0x1) {       // If key is pressed
-        uint8_t keypress = mapping[*layer][inPin][outPin]; // Get mapping
-        if (keypress > 0xF0 && keypress <= 0xFE) {
-          if (keypress == 0xF1) {
+      if ((combinedMatrix[inPin] >> outPin) & 0x1) {        // If key is pressed
+        uint16_t keypress = mapping[*layer][inPin][outPin]; // Get mapping
+        if (keypress >= 0xFF00 && keypress <= 0xFFFF) {
+          if (keypress == 0xFF00) {
             *layer = ++(*layer) % LAYER_COUNT;
             showLayer(*layer);
+            delay(50000);
             return;
           }
-          if (keypress == 0xF2) {
+          if (keypress == 0xFF01) {
             *layer = (*layer + (LAYER_COUNT - 1)) % LAYER_COUNT;
             showLayer(*layer);
+            delay(50000);
             return;
           }
         }
-        if (keypress > 0xE7 && keypress < 0xF0) {  // Is this a macro?
+        if (keypress > 0xE7 && keypress < 0xFF00) { // Is this a macro?
           combinedMatrix[inPin] &= ~(1 << outPin); // Un-set this key as pressed
           macros_to_send[macro_count] =
               keypress; // Save this macro as one we need to send
