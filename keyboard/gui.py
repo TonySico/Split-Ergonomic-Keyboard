@@ -168,6 +168,7 @@ special_doubles = {
 
 # This is used to map from keys to USB codes
 m = {
+    "blank" : "KC_NONE",
     "a": "KC_A", "A": "KC_A",
     "b": "KC_B", "B": "KC_B",
     "c": "KC_C", "C": "KC_C",
@@ -340,7 +341,7 @@ class MainWindow(Frame):
         # NOTE THESE ARE NOT JUST CHOSEN RANDOMLY, THE WORDS MUST MATCH EXACTLY WITH LOGIC HARDCODED IN THE FIRMWARE! DO NOT CHANGE THIS UNLESS YOU ALSO CHANGE FIRMWARE LOGIC!
         # NOTE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         # NOTE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        self.specials = ["Custom (Macro)", "Caps Lock", "Enter", "Escape", "Backspace", "Tab", "Spacebar", "PrintScr", "ScrollLck", "Pause", "Insert", "Home", "PageUp", "Delete", "End", "PageDown", "RightArrow", "LeftArrow", "DownArrow", "UpArrow", "NumLck", "KeypadEnter", "LCtrl", "LShift", "LAlt", "LWin", "RCtrl", "RShift", "RAlt", "RWin", "F1 ", "F2 ", "F3 ", "F4 ", "F5 ", "F6 ", "F7 ", "F8 ", "F9 ", "F10", "F11", "F12", "F13", "F14", "F15", "F16", "F17", "F18", "F19", "F20", "F21", "F22", "F23", "F24", "NEXT_LAYER", "PREV_LAYER"]
+        self.specials = ["blank", "Custom (Macro)", "Caps Lock", "Enter", "Escape", "Backspace", "Tab", "Spacebar", "PrintScr", "ScrollLck", "Pause", "Insert", "Home", "PageUp", "Delete", "End", "PageDown", "RightArrow", "LeftArrow", "DownArrow", "UpArrow", "NumLck", "KeypadEnter", "LCtrl", "LShift", "LAlt", "LWin", "RCtrl", "RShift", "RAlt", "RWin", "F1 ", "F2 ", "F3 ", "F4 ", "F5 ", "F6 ", "F7 ", "F8 ", "F9 ", "F10", "F11", "F12", "F13", "F14", "F15", "F16", "F17", "F18", "F19", "F20", "F21", "F22", "F23", "F24", "NEXT_LAYER", "PREV_LAYER"]
 
         # print(len(self.specials))
 
