@@ -785,7 +785,7 @@ class MainWindow(Frame):
         elif os.name == 'posix': # linux
             tkinter.messagebox.showinfo(title="Info", message="Note: avrdude and avr-gcc MUST be installed when flashing via Linux.\nSteps: \n1) Connect the appropriate keyboard half via USB-C\n2) When avrdude is waiting for a device (\"avrdude: No device present\"), reset your master keyboard\n3) Once flashing is complete, reset the slave half then the master half to use newly mapped keyboard\n4) You may close the command prompt once flashing is complete")
             os.chdir("./firmware/src/")
-            subprocess.run(['make', 'makefile', 'master_flash'])
+            subprocess.run(['make', 'gui'])
             os.chdir("../../")
         else: # Unknown
             tkinter.messagebox.showerror(title="Error", message="OS unrecognized, please flash manually.")
